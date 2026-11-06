@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#101426">
+<meta name="description" content="Seu calendário pessoal de constância nos estudos.">
+<link rel="manifest" href="manifest.webmanifest">
+<title>Study Bloom — Minha Ofensiva</title>
+<style>
+:root{--bg:#0b1020;--panel:#141b30;--panel2:#1b2440;--line:#293451;--text:#f4f6ff;--muted:#9ba8c7;--accent:#9b8cff;--accent2:#6ee7c1;--pink:#ff8fbd;--shadow:0 18px 50px #0005}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#25204b 0,transparent 34%),radial-gradient(circle at 100% 20%,#123c45 0,transparent 30%),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+button,input,textarea{font:inherit}button{cursor:pointer}
+.app{max-width:1160px;margin:auto;padding:28px 22px 50px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}
+.brand{display:flex;align-items:center;gap:12px}.logo{width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:linear-gradient(135deg,var(--accent),var(--pink));font-size:25px;box-shadow:0 8px 25px #9b8cff55}
+h1{font-size:22px;margin:0;letter-spacing:-.5px}.subtitle{font-size:12px;color:var(--muted);margin-top:3px}
+.header-actions{display:flex;gap:9px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#ffffff0a;color:var(--text);padding:10px 14px;border-radius:12px;font-weight:650}.btn:hover{background:#ffffff16}.btn.primary{background:linear-gradient(135deg,#8d7cff,#b18aff);border:0;color:#111329}
+.hero{display:grid;grid-template-columns:1.4fr .8fr;gap:16px;margin-bottom:17px}
+.card{background:linear-gradient(145deg,#19223bdf,#121a2deF);border:1px solid #ffffff12;border-radius:22px;padding:20px;box-shadow:var(--shadow)}
+.hero-main{position:relative;overflow:hidden;min-height:190px}.hero-main:after{content:"🌷";position:absolute;font-size:112px;right:24px;bottom:-25px;opacity:.17;transform:rotate(-15deg)}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--accent2);font-weight:800}.hero h2{font-size:clamp(25px,4vw,36px);line-height:1.1;margin:12px 0 8px;max-width:500px}.hero p{color:var(--muted);margin:0;max-width:470px;font-size:14px;line-height:1.55}
+.streak-number{font-size:50px;font-weight:850;letter-spacing:-2px;margin:9px 0 0}.streak-label{color:var(--muted);font-size:13px}.fire{font-size:24px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:17px}.stat{padding:16px 17px}.stat .ico{font-size:20px}.stat .value{font-size:25px;font-weight:800;margin-top:8px}.stat .label{font-size:12px;color:var(--muted);margin-top:2px}
+.main-grid{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,.75fr);gap:16px}
+.calendar-card{padding:20px}.cal-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}.cal-title{font-size:21px;font-weight:800;text-transform:capitalize}.month-nav{display:flex;gap:7px}.icon-btn{height:36px;width:38px;border:1px solid var(--line);border-radius:11px;background:#ffffff08;color:var(--text);font-size:18px}
+.weekdays,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}.weekdays div{text-align:center;color:var(--muted);font-size:11px;font-weight:750;padding:5px 0}
+.day{position:relative;min-height:76px;border:1px solid #ffffff12;border-radius:13px;background:#ffffff06;color:var(--text);padding:8px 5px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:5px;transition:.15s}
+.day:hover{border-color:var(--accent);transform:translateY(-2px);background:#9b8cff12}.day.out{opacity:.28}.day.today{border:1px solid var(--pink);box-shadow:inset 0 0 0 1px #ff8fbd33}.day.done{background:linear-gradient(145deg,#51458d88,#235b5980);border-color:#9b8cff88}
+.day .num{font-size:12px;align-self:flex-start;margin-left:3px;color:#dbe2ff}.day .emoji{font-size:23px;line-height:1.1}.day .check{position:absolute;right:6px;top:5px;font-size:10px;color:var(--accent2)}
+.side{display:flex;flex-direction:column;gap:16px}.side h3{margin:0 0 13px;font-size:15px}.progress-track{height:9px;background:#ffffff12;border-radius:20px;overflow:hidden;margin:10px 0}.progress-fill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:20px;transition:width .3s}
+.mini{color:var(--muted);font-size:12px;line-height:1.5}.legend{display:flex;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:14px}.legend span{display:flex;align-items:center;gap:5px}
+.emoji-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.emoji-choice{border:1px solid transparent;background:#ffffff0a;border-radius:10px;padding:8px 0;font-size:21px}.emoji-choice:hover,.emoji-choice.selected{border-color:var(--accent);background:#9b8cff25}
+textarea{width:100%;resize:vertical;min-height:70px;background:#0d1427;border:1px solid var(--line);border-radius:12px;color:var(--text);padding:11px;outline:none}
+.modal-backdrop{position:fixed;inset:0;background:#030611bb;display:none;align-items:center;justify-content:center;padding:18px;z-index:5}.modal-backdrop.show{display:flex}.modal{width:min(440px,100%);background:#171f35;border:1px solid #ffffff20;border-radius:22px;padding:21px;box-shadow:var(--shadow)}.modal h3{margin:0 0 5px}.modal p{color:var(--muted);font-size:13px;margin:0 0 15px}.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#202b45;border:1px solid #ffffff20;padding:11px 16px;border-radius:12px;opacity:0;pointer-events:none;transition:.2s;z-index:9;font-size:13px}.toast.show{opacity:1}
+footer{text-align:center;color:#71809f;font-size:11px;margin-top:22px}
+@media(max-width:800px){.hero{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:480px){.app{padding:18px 12px 35px}header{align-items:flex-start}.brand h1{font-size:18px}.header-actions .btn{padding:8px 10px;font-size:12px}.card{border-radius:18px;padding:15px}.day{min-height:58px;border-radius:10px;padding:6px 3px;gap:4px}.days,.weekdays{gap:4px}.day .emoji{font-size:19px}.cal-title{font-size:18px}.weekdays div{font-size:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo">🌸</div><div><h1>Study Bloom</h1><div class="subtitle">um dia de cada vez · sua constância em florescimento</div></div></div>
+ <div class="header-actions"><button class="btn" id="todayBtn">Hoje</button><button class="btn" id="exportBtn">↧ Exportar</button></div>
+</header>
+<section class="hero">
+ <div class="card hero-main"><div class="eyebrow">✦ sua jornada</div><h2>Pequenos passos.<br>Grandes conquistas.</h2><p>Marque o dia em que você estudou. Não importa a quantidade: o importante é manter o compromisso com você.</p></div>
+ <div class="card"><div class="eyebrow">OFENSIVA ATUAL <span class="fire">🔥</span></div><div class="streak-number" id="streak">0</div><div class="streak-label">dias consecutivos de estudo</div><div class="mini" id="streakHint" style="margin-top:13px">Sua próxima conquista começa hoje.</div></div>
+</section>
+<section class="stats">
+ <div class="card stat"><div class="ico">📚</div><div class="value" id="total">0</div><div class="label">Dias estudados no total</div></div>
+ <div class="card stat"><div class="ico">🌷</div><div class="value" id="monthTotal">0</div><div class="label">Dias neste mês</div></div>
+ <div class="card stat"><div class="ico">🏆</div><div class="value" id="record">0</div><div class="label">Maior ofensiva</div></div>
+ <div class="card stat"><div class="ico">✨</div><div class="value" id="rate">0%</div><div class="label">Constância neste mês</div></div>
+</section>
+<div class="main-grid">
+ <section class="card calendar-card">
+  <div class="cal-head"><div><div class="eyebrow">SEU CALENDÁRIO</div><div class="cal-title" id="monthTitle"></div></div><div class="month-nav"><button class="icon-btn" id="prev" aria-label="Mês anterior">‹</button><button class="icon-btn" id="next" aria-label="Próximo mês">›</button></div></div>
+  <div class="weekdays"><div>DOM</div><div>SEG</div><div>TER</div><div>QUA</div><div>QUI</div><div>SEX</div><div>SÁB</div></div>
+  <div class="days" id="days"></div>
+  <div class="legend"><span>🟣 Dia registrado</span><span>🌸 Hoje</span><span>Toque em um dia para marcar</span></div>
+ </section>
+ <aside class="side">
+  <section class="card"><h3>🎯 Meta do mês</h3><div style="display:flex;justify-content:space-between;align-items:end"><strong id="goalCount" style="font-size:27px">0/20</strong><span class="mini">dias</span></div><div class="progress-track"><div class="progress-fill" id="goalBar"></div></div><div class="mini">Meta padrão: 20 dias de estudo. Você pode ajustar quando quiser.</div><div style="display:flex;gap:8px;margin-top:12px"><input id="goalInput" type="number" min="1" max="31" value="20" style="width:80px;background:#0d1427;color:white;border:1px solid var(--line);border-radius:9px;padding:8px"><button class="btn" id="saveGoal">Atualizar</button></div></section>
+  <section class="card"><h3>🎨 Emojis dos seus dias</h3><div class="mini" style="margin-bottom:12px">Escolha um emoji para personalizar cada registro. O emoji fica salvo no dia selecionado.</div><div class="emoji-grid" id="emojiGrid"></div></section>
+  <section class="card"><h3>💌 Mensagem para você</h3><div class="mini" style="margin-bottom:10px">Uma frase para manter o foco:</div><div id="quote" style="font-size:14px;line-height:1.55;font-weight:650">“A constância constrói o que a motivação começa.”</div><button class="btn" id="newQuote" style="margin-top:12px">Outra inspiração ✨</button></section>
+ </aside>
+</div>
+<footer>Study Bloom · Seus registros ficam salvos neste dispositivo. Exporte uma cópia para backup.</footer>
+</div>
+<div class="modal-backdrop" id="modal">
+ <div class="modal"><h3 id="modalTitle">Registrar estudo</h3><p id="modalDate"></p><div class="mini" style="margin-bottom:9px">Escolha um emoji para este dia:</div><div class="emoji-grid" id="modalEmojis"></div><div style="margin-top:14px"><div class="mini" style="margin-bottom:7px">Nota opcional (ex.: “dia produtivo”)</div><textarea id="note" placeholder="Escreva uma pequena observação..."></textarea></div><div class="modal-actions"><button class="btn" id="removeDay">Desmarcar</button><button class="btn" id="cancel">Cancelar</button><button class="btn primary" id="saveDay">Salvar dia ✓</button></div></div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const $=id=>document.getElementById(id);
+const KEY='studyBloomRecordsV1', GOAL='studyBloomGoalV1';
+let records=JSON.parse(localStorage.getItem(KEY)||'{}'), goal=Number(localStorage.getItem(GOAL)||20);
+let view=new Date(); view.setDate(1); let selected=null, chosen='📚';
+const emojis=['📚','✍️','⚖️','🧠','☕','🌸','🔥','✨','🎯','💜','🦋','🌷','💻','📖','🏆','🌞','🍀','🚀'];
+const quotes=['A constância constrói o que a motivação começa.','Você não precisa fazer tudo hoje. Precisa cumprir o passo de hoje.','Disciplina é continuar mesmo nos dias comuns.','Cada dia estudado é um voto na pessoa que você quer se tornar.','O progresso silencioso também é progresso.'];
+const pad=n=>String(n).padStart(2,'0'), key=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const dateFrom=k=>new Date(k+'T12:00:00');
+function save(){localStorage.setItem(KEY,JSON.stringify(records));localStorage.setItem(GOAL,goal)}
+function monthName(d){return d.toLocaleDateString('pt-BR',{month:'long',year:'numeric'})}
+function render(){
+ $('monthTitle').textContent=monthName(view); $('days').innerHTML='';
+ const first=new Date(view.getFullYear(),view.getMonth(),1), start=first.getDay(), count=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+ const totalCells=Math.ceil((start+count)/7)*7, today=key(new Date());
+ for(let i=0;i<totalCells;i++){
+  let dayNum=i-start+1, d=new Date(view.getFullYear(),view.getMonth(),dayNum), k=key(d), inMonth=dayNum>0&&dayNum<=count, rec=records[k], b=document.createElement('button');
+  b.className='day'+(!inMonth?' out':'')+(k===today?' today':'')+(rec?' done':''); b.disabled=!inMonth;
+  b.innerHTML=`<span class="num">${d.getDate()}</span>${rec?`<span class="emoji">${rec.emoji||'📚'}</span><span class="check">✓</span>`:''}`;
+  if(inMonth)b.addEventListener('click',()=>openDay(k)); $('days').appendChild(b);
+ }
+ updateStats();
+}
+function streaks(){
+ const dates=Object.keys(records).filter(k=>records[k]).sort(), set=new Set(dates);
+ let best=0,run=0,prev=null;
+ for(const k of dates){let d=dateFrom(k); if(prev && (d-prev)===86400000)run++;else run=1;best=Math.max(best,run);prev=d;}
+ let cur=0, d=new Date(); d.setHours(12,0,0,0);
+ // A sequência atual pode continuar se estudou hoje ou ontem.
+ let cursor=new Date(d), k=key(cursor);
+ if(!set.has(k)){cursor.setDate(cursor.getDate()-1);k=key(cursor);}
+ while(set.has(k)){cur++;cursor.setDate(cursor.getDate()-1);k=key(cursor);}
+ return {best,cur};
+}
+function updateStats(){
+ const keys=Object.keys(records), prefix=`${view.getFullYear()}-${pad(view.getMonth()+1)}`, month=keys.filter(k=>k.startsWith(prefix)).length, s=streaks(), days=new Date(view.getFullYear(),view.getMonth()+1,0).getDate();
+ $('total').textContent=keys.length;$('monthTotal').textContent=month;$('record').textContent=s.best;$('streak').textContent=s.cur;$('rate').textContent=Math.round(month/days*100)+'%';
+ $('streakHint').textContent=s.cur?'Continue: sua sequência está ativa!':'Marque um dia para iniciar uma nova sequência.';
+ $('goalCount').textContent=`${month}/${goal}`;$('goalBar').style.width=Math.min(100,month/goal*100)+'%';
+}
+function openDay(k){
+ selected=k;let rec=records[k];chosen=rec?.emoji||'📚';$('modalTitle').textContent=rec?'Editar registro':'Registrar estudo';$('modalDate').textContent=dateFrom(k).toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});$('note').value=rec?.note||'';renderModalEmojis();$('modal').classList.add('show');
+}
+function renderModalEmojis(){
+ $('modalEmojis').innerHTML='';emojis.forEach(e=>{let b=document.createElement('button');b.className='emoji-choice'+(chosen===e?' selected':'');b.textContent=e;b.onclick=()=>{chosen=e;renderModalEmojis()};$('modalEmojis').appendChild(b)});
+}
+function close(){ $('modal').classList.remove('show');}
+function toast(msg){$('toast').textContent=msg;$('toast').classList.add('show');setTimeout(()=>$('toast').classList.remove('show'),1900)}
+$('saveDay').onclick=()=>{records[selected]={emoji:chosen,note:$('note').value.trim()};save();close();render();toast('Dia registrado. Muito bem! ✨')};
+$('removeDay').onclick=()=>{delete records[selected];save();close();render();toast('Registro removido.')};
+$('cancel').onclick=close;$('prev').onclick=()=>{view.setMonth(view.getMonth()-1);render()};$('next').onclick=()=>{view.setMonth(view.getMonth()+1);render()};
+$('todayBtn').onclick=()=>{view=new Date();view.setDate(1);render()};
+$('saveGoal').onclick=()=>{goal=Math.max(1,Math.min(31,Number($('goalInput').value)||20));$('goalInput').value=goal;save();updateStats();toast('Meta atualizada 🎯')};
+$('newQuote').onclick=()=>{$('quote').textContent='“'+quotes[Math.floor(Math.random()*quotes.length)]+'”'};
+$('exportBtn').onclick=()=>{let blob=new Blob([JSON.stringify({records,goal,exportedAt:new Date().toISOString()},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-study-bloom.json';a.click();URL.revokeObjectURL(a.href);toast('Backup exportado!')};
+$('emojiGrid').innerHTML='';emojis.forEach(e=>{let b=document.createElement('button');b.className='emoji-choice';b.textContent=e;b.title='Exemplo de emoji';b.onclick=()=>{chosen=e;toast('Emoji '+e+' selecionado. Abra um dia para aplicar.');};$('emojiGrid').appendChild(b)});
+$('goalInput').value=goal;render();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))navigator.serviceWorker.register('./sw.js').catch(()=>{});
+</script>
+</body></html>
